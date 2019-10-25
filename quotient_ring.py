@@ -33,7 +33,7 @@ class QuotientRingElement:
         return QuotientRingElement(self.mod_, self.value_ * _other.value_)
 
     def __pow__(self, _other):
-        return QuotientRingElement(self.mod_, self.value_ ** _other.value_)
+        return QuotientRingElement(self.mod_, self.value_ ** _other)
 
 class QuotientRing:
     def __init__(self, _mod):
@@ -65,7 +65,14 @@ class QuotientRing:
                     zero_divisors.append(left)
         return zero_divisors
 
+    def find_nilpotent(self):
+        nilpotent = []
+        for element in self.set_:
+            for exponent in range(1, self.mod_):
+                if (element ** exponent).value() == 0:
+                    nilpotent.append(element)
 
+        return nilpotent
 
 def main():
     print("BEGINN MODULE\n\n\n")
@@ -78,7 +85,11 @@ def main():
     print("{0} + {1} = {2}".format(test_obj.set()[mod - 2], test_obj.set()[mod - 1], test_obj.set()[mod - 2] + test_obj.set()[mod - 1]))
 
     zero_divisors = test_obj.find_zero_divisors()
-    for element in zero_divisors:
+    #for element in zero_divisors:
+       #print(element)
+
+    nilpotent = test_obj.find_nilpotent()
+    for element in nilpotent:
         print(element)
 
 if __name__ == '__main__':
